@@ -1,5 +1,6 @@
 import re
 from itertools import groupby
+import math
 
 with open('text_2', 'r') as text_input:
     string_data = text_input.read()
@@ -22,7 +23,6 @@ class Game:
     def __repr__(self):
         return f'(id: {self.id}, cubes: {self.cubs})'
 
-control_colors = [Color(12, 'red'), Color(13, 'green'), Color(14, 'blue')]
 
 list_dict_games = []
 game_number = 0
@@ -41,7 +41,7 @@ for line in separated_data:
     games.append(game)
 
 
-sum_games = 0
+sum_of_powers = 0
 for game in games:
     sorted_input = sorted(game.cubs, key=lambda c: c.color)
     groups = groupby(sorted_input, key=lambda c: c.color)
@@ -53,28 +53,13 @@ for game in games:
         max_number = max(color_with_numbers["items"])
         max_color = Color(max_number, color_with_numbers["color"])
         list_max_colors.append(max_color)
-    print(list_max_colors)
 
-
-    game_posible = True
-    for color in control_colors:
-        for max_color in list_max_colors:
-            if max_color.color == color.color:
-                print(color.color)
-                if max_color.number > color.number:
-                    print('false')
-                    game_posible = False
-                break
-        if not game_posible:
-            break
-
-    if game_posible:
-        sum_games += game.id
-        print(sum_games)
-
-print(sum_games)
-
-
+    num = []
+    for col in list_max_colors:
+        num.append(col.number)
+    power_of_game = math.prod(num)
+    sum_of_powers +=power_of_game
+    print(sum_of_powers)
 
 
 
